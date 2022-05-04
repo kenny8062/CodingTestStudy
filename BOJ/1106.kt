@@ -8,17 +8,11 @@ fun main(args: Array<String>) = with(Scanner(System.`in`)) {
     var dp = IntArray(1001){Int.MAX_VALUE}
     dp[0]=0
     for(i in arr.indices){
-        if(arr[i][1]!=1) {
-            for(j in 1 until arr[i][1]){
-                dp[j]= min(dp[j],arr[i][0])
-            }
-            for (j in arr[i][1]..target) {
-                dp[j] = min(dp[j], dp[j - arr[i][1]] + arr[i][0])
-            }
-        }else{
-            for(j in 1..target){
-                dp[j]= min(dp[j], dp[j - 1] + arr[i][0])
-            }
+        for(j in 1 until arr[i][1]){
+            dp[j]= min(dp[j],arr[i][0])
+        }
+        for (j in arr[i][1]..target) {
+            dp[j] = min(dp[j], dp[j - arr[i][1]] + arr[i][0])
         }
     }
     println(dp[target])
