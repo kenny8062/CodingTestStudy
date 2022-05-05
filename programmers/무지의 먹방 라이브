@@ -1,0 +1,50 @@
+class Solution {
+    fun solution(food_times: IntArray, k: Long): Int {
+        var answer = -1
+        var size = food_times.size
+        var div = k/size
+        var rem = k%size
+        var arr=Array(size){Pair2(food_times[it].toLong(),true)}
+        var cnt = 0
+        while(div>0L){
+            for(i in 0 until size){
+                if(arr[i].ispos){
+                    arr[i].num -=div
+                    if(arr[i].num<=0){
+                        cnt++
+                        arr[i].ispos=false
+                        rem-=arr[i].num
+                    }
+                }
+            }
+            if((size-cnt)!=0) {
+                div=rem/(size-cnt)
+                rem=rem%(size-cnt)
+            }else{
+                div=0L
+            }
+        }
+        if(rem==0L){
+            for(i in 0 until size){
+                if(arr[i].ispos) return i+1
+            }
+        }
+        if(rem>0){
+            for(i in 0 until size){
+                if(arr[i].ispos){
+                    rem--
+                    if(rem==0L){
+                        for(j in i+1 until size){
+                            if(arr[j].ispos) return j+1
+                        }
+                        for(j in 0 until i+1){
+                            if(arr[j].ispos) return j+1
+                        }
+                    }
+                }
+            }
+        }
+        return answer
+    }
+    data class Pair2(var num : Long, var ispos :Boolean)
+}
